@@ -1,6 +1,7 @@
 # Strang
 Experimental nested String and UTF-8 support for SuperCollider
 
+Thanks to Laureano López.
 
 The String class doesn't support UTF-8 (http://en.wikipedia.org/wiki/UTF-8), while most editors that are in use with SuperCollider allow strings to be written in unicode. Such strings are internally represented in a way that doesn't split the string into correct characters. This class makes it easier to use UTF-8 encodings.
 
