@@ -8,6 +8,8 @@ The link::Classes/String:: class doesn't support UTF-8 (http://en.wikipedia.org/
 
 note::this works well in many cases, but is experimental. Improvements welcome!::
 
+Thanks to Laureano López.
+
 SECTION::Etymology
 "Strang" is German for string, rope, strand, cord, skein.
 
