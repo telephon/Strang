@@ -1,0 +1,105 @@
+TITLE:: Strang
+summary:: Experimental nested String and UTF-8 support for SuperCollider
+categories:: Core
+related:: Classes/String
+
+DESCRIPTION::
+The link::Classes/String:: class doesn't support UTF-8 (http://en.wikipedia.org/wiki/UTF-8), while most editors that are in use with SuperCollider allow strings to be written in unicode. Such strings are internally represented in a way that doesn't split the string into correct characters. This class makes it easier to use UTF-8 encodings.
+
+note::this works well in many cases, but is experimental. Improvements welcome!::
+
+SECTION::Etymology
+"Strang" is German for string, ropem strand, cord, skein.
+
+The Deutsches Wörterbuch von Jacob Grimm und Wilhelm Grimm writes:
+
+"strang, m. , dickes, gedrehtes seil. herkunft und form.
+altnord. strengr, ags. streng, engl. string, fries. stringe, mnl. strenge, stringe, strenc, nl. streng, stranc. das deutsche hat formen der a-, i- und n-declination sowie masc. und fem. genus nebeneinander: im ahd. sg. nom. stranc, strangi, strengi, strenki, pl. nom. strangun, dat. strangon, strengin, s. Graff ahd. sprachsch. 6, 755; im mhd. st. masc. stranc neben sw. masc. und fem. strange; im mnd. sg. strank, strange, pl. nom. strenge, dat. strengen, acc. strengen, strenge. […]"
+
+http://woerterbuchnetz.de/DWB/?sigle=DWB&mode=Vernetzung&lemid=GS50779#XGS50779
+
+
+
+CLASSMETHODS::
+
+METHOD:: newFrom
+Create a new instance from another collection, typically a link::Classes/String::. This method is used by the message call link::Classes/Object#-as::.
+
+ARGUMENT:: string
+The string in usual encoding.
+
+CODE::
+a = "hölloßå'°".as(Strang);
+a.scramble;
+::
+
+EXAMPLES::
+
+code::
+a = "hölloßå'°".as(Strang);
+
+a.split($l);
+a.curdle(0.2).choose.class;
+
+a.array;
+a[5]
+a[1]
+
+x = "ǾĲ";
+a.addAll(x);
+
+// some operations
+a.scramble;
+a.rotate(2);
+a.pyramid(2);
+a.scramble;
+a.class;
+a.array;
+
+Pseq(a).asStream.all;
+
+a.addAll("rr");
+a.as(Array).at(1).isStandardAscii
+
+a + "text";
+a + a
+b = a ++ "xyz" ++ "ÄÖÜ";
+b.scramble;
+b[3..6]
+b.keep(-4);
+b.drop(3);
+
+z = "hello" ++ a;
+z.class; // string, this is OK.
+
+// higher ascii
+x = "⊙";
+x.ascii
+
+a ++ x
+
+a = "bėglys".as(Strang);
+a.scramble;
+
+
+
+a = "hölloßå'°".as(Strang);
+a[3] = "123".asStrang;
+a.scramble; // 123 remains together
+a[3]; // still a substring
+a[3][2] = "hello".asStrang; // another level
+
+// another good thing:
+
+b = a.collect { |x| x ++ "zzz" };
+b = b.normalize; // make everything a strang.
+
+a = "∉☛❒❤⨗⊙⋱⋰Ổ".asStrang;
+a.scramble;
+
+(
+w = Window(a.asString).front;
+t = TextView(w, w.view.bounds).string_(a.asString);
+fork({ loop { 1.wait; t.string = t.string.as(Strang).scramble.asString }}, AppClock)
+)
+::
