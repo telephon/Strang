@@ -7,7 +7,7 @@ The String class doesn't support UTF-8 (http://en.wikipedia.org/wiki/UTF-8), whi
 This works well in many cases, but is experimental. Improvements welcome!
 
 ## Etymology
-"Strang" is German for string, ropem strand, cord, skein.
+"Strang" is German for string, rope, strand, cord, skein.
 
 The Deutsches Wörterbuch von Jacob Grimm und Wilhelm Grimm writes:
 
