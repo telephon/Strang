@@ -31,14 +31,25 @@ ARGUMENT:: string
 The string in usual encoding.
 
 CODE::
-a = "hölloßå'°".as(Strang);
+a = "hölloßå'°".as(Strang); // asStrang is the short form
 a.scramble;
+::
+
+INSTANCEMETHODS::
+
+METHOD:: normalize
+Make all elements of the strang (characters or other strangs) compatible, which effectively means to convert all substrings into a Strang.
+
+CODE::
+a = "hölloßå'°".asStrang;
+b = a.collect { |x| x ++ "zzz" };
+b = b.normalize; // make everything a strang.
 ::
 
 EXAMPLES::
 
 code::
-a = "hölloßå'°".as(Strang);
+a = "hölloßå'°".asStrang;
 
 a.split($l);
 a.curdle(0.2).choose.class;
@@ -80,28 +91,28 @@ x.ascii
 
 a ++ x
 
-a = "bėglys".as(Strang);
+a = "bėglys".asStrang;
 a.scramble;
 
 
+// nested strings
 
-a = "hölloßå'°".as(Strang);
-a[3] = "123".asStrang;
+a = "hölloßå'°".asStrang;
+a[3] = "123".asStrang; // put a strang into a strang
+a.scramble; // 123 remains together
 a.scramble; // 123 remains together
 a[3]; // still a substring
 a[3][2] = "hello".asStrang; // another level
+a.scramble;
+a[3].scramble; // "hello" remains together
+a[3].scramble; // "hello" remains together
 
-// another good thing:
-
-b = a.collect { |x| x ++ "zzz" };
-b = b.normalize; // make everything a strang.
-
+// use in GUI:
+(
 a = "∉☛❒❤⨗⊙⋱⋰Ổ".asStrang;
 a.scramble;
-
-(
 w = Window(a.asString).front;
-t = TextView(w, w.view.bounds).string_(a.asString);
-fork({ loop { 1.wait; t.string = t.string.as(Strang).scramble.asString }}, AppClock)
+t = TextView(w, w.view.bounds).string_(a.asString).font_(Font("Helvetiva", 67));
+fork({ loop { 1.wait; t.string = t.string.asStrang.scramble.asString }}, AppClock)
 )
 ::
