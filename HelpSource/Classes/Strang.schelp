@@ -72,7 +72,7 @@ a.array;
 Pseq(a).asStream.all;
 
 a.addAll("rr");
-a.as(Array).at(1).isStandardAscii
+a.as(Array).at(1).class; // -> BigChar
 
 a + "text";
 a + a
@@ -84,15 +84,20 @@ b.drop(3);
 
 z = "hello" ++ a;
 z.class; // string, this is OK.
+z.asStrang; // reconvert
 
 // higher ascii
 x = "⊙";
 x.ascii
 
+[ -30, -118, -103 ].asAscii.asStrang
+
 a ++ x
 
 a = "bėglys".asStrang;
 a.scramble;
+
+
 
 
 // nested strings
@@ -106,6 +111,8 @@ a[3][2] = "hello".asStrang; // another level
 a.scramble;
 a[3].scramble; // "hello" remains together
 a[3].scramble; // "hello" remains together
+a.formatNested;
+a.scramble.formatNested;
 
 // use in GUI:
 (

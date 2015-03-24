@@ -17,6 +17,14 @@ Strang : List {
 		^super.addAll(string.asStrang)
 	}
 
+	// conversion
+
+	normalize {
+		^this.collect { |elem|
+			if(elem.isKindOf(Char)) { elem } { elem.asStrang }
+		}
+	}
+
 	asStrang {
 		^this
 	}
@@ -31,6 +39,20 @@ Strang : List {
 
 	printOn { arg stream;
 		this.asString.printOn(stream)
+	}
+
+	deepFormat { |delim1 = "(", delim2 = ")"|
+		var str = "";
+		str = str ++ delim1;
+		this.do { |x|
+			if(x.isKindOf(Strang)) {
+				str = str ++ x.deepFormat(delim1, delim2);
+			} {
+				str = str ++ x.asString;
+			}
+		};
+		str = str ++ delim2;
+		^str
 	}
 
 	// some methods from String:
@@ -64,11 +86,6 @@ Strang : List {
 		^this ++ " " ++ string
 	}
 
-	normalize {
-		^this.collect { |elem|
-			if(elem.isKindOf(Char)) { elem } { elem.asStrang }
-		}
-	}
 
 }
 
