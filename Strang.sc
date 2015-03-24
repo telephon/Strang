@@ -17,6 +17,29 @@ Strang : List {
 		^super.addAll(string.asStrang)
 	}
 
+	find { |string, ignoreCase = false, offset = 0|
+		var index = offset;
+		var i0 = 0;
+		var last = string.size - 1;
+		string = string.asStrang;
+		if(ignoreCase) { Error("ignoreCase not yet implemented").throw };
+		while {
+			index < this.size
+		} {
+			if(i0 <= last) {
+				if(this.at(index + i0) == string.at(i0)) {
+					i0 = i0 + 1;
+				} {
+					index = index + i0 + 1;
+					i0 = 0;
+				}
+			} {
+				^index
+			}
+		};
+		^nil
+	}
+
 	// conversion
 
 	normalize {
@@ -37,6 +60,8 @@ Strang : List {
 		^array.ascii.flat
 	}
 
+	// printing
+
 	printOn { arg stream;
 		this.asString.printOn(stream)
 	}
@@ -53,6 +78,14 @@ Strang : List {
 		};
 		str = str ++ delim2;
 		^str
+	}
+
+	*fromFormat { |string, delim1 = "(", delim2 = ")"|
+		var new = Strang.new;
+		/*
+
+		*/
+		^new
 	}
 
 	// some methods from String:
@@ -116,6 +149,7 @@ BigChar : Char {
 	hash {
 		^this.instVarHash(#[\chars])
 	}
+
 }
 
 + Object {
