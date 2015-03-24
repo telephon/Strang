@@ -18,23 +18,23 @@ Strang : List {
 	}
 
 	find { |string, ignoreCase = false, offset = 0|
-		var index = offset;
+		var index = offset, last;
 		var i0 = 0;
-		var last = string.size - 1;
 		string = string.asStrang;
+		last = string.size - 1;
 		if(ignoreCase) { Error("ignoreCase not yet implemented").throw };
 		while {
 			index < this.size
 		} {
-			if(i0 <= last) {
-				if(this.at(index + i0) == string.at(i0)) {
+			if(this.at(index + i0) == string.at(i0)) {
+				if(i0 < last) {
 					i0 = i0 + 1;
 				} {
-					index = index + i0 + 1;
-					i0 = 0;
+					^index
 				}
 			} {
-				^index
+				index = index + i0 + 1;
+				i0 = 0;
 			}
 		};
 		^nil
@@ -175,7 +175,9 @@ BigChar : Char {
 				counter = counter - 1;
 				if (counter == 0) {
 					if(nonAscii.isNil) { Error("can't encode string").throw };
-					res.add(BigChar(nonAscii)); // this could be Strang, then we can skip BigChar completely. But sematics?
+					// this could be Strang, then we can skip BigChar completely.
+					// But semantics?
+					res.add(BigChar(nonAscii));
 					nonAscii = nil;
 				};
 			} {

@@ -37,6 +37,27 @@ a.scramble;
 
 INSTANCEMETHODS::
 
+METHOD::find
+
+Find a substring.
+
+ARGUMENT::string
+string or strang to search for.
+
+ARGUMENT::ignoreCase
+not yet supported
+
+ARGUMENT::offset
+initial offset into the receiver string.
+
+CODE::
+"hggỔh❤iii".asStrang.find("❤");
+"❤".asStrang.find("❤");
+"aber".asStrang.find("❤");
+"hggỔhs❤iii".asStrang.find("Ổh");
+::
+
+
 METHOD:: normalize
 Make all elements of the strang (characters or other strangs) compatible, which effectively means to convert all substrings into a Strang.
 
@@ -44,6 +65,17 @@ CODE::
 a = "hölloßå'°".asStrang;
 b = a.collect { |x| x ++ "zzz" };
 b = b.normalize; // make everything a strang.
+::
+
+METHOD::deepFormat
+
+Format as a link::Classes/String::, adding delimters for nested strings.
+
+CODE::
+a = "hölloßå'°".asStrang;
+a[3] = "123".asStrang; // put a strang into a strang
+a.deepFormat;
+a.deepFormat(" >> ", " << ");
 ::
 
 EXAMPLES::
@@ -111,8 +143,8 @@ a[3][2] = "hello".asStrang; // another level
 a.scramble;
 a[3].scramble; // "hello" remains together
 a[3].scramble; // "hello" remains together
-a.formatNested;
-a.scramble.formatNested;
+a.deepFormat;
+a.scramble.deepFormat;
 
 // use in GUI:
 (
